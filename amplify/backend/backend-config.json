@@ -1,0 +1,27 @@
+{
+	"api": {
+		"karstawayoct2019": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "key",
+							"apiKeyExpirationDays": "300"
+						}
+					}
+				}
+			}
+		}
+	},
+	"auth": {
+		"karstawayoct201963a7618e": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}
