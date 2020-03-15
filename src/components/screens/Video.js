@@ -35,14 +35,7 @@
 //               name: 'video.mov',
 //               type: 'video/mp4'
 //         }  
-//         const options = {
-//             keyPrefix: 'videos/',
-//             bucket: 'karstawayoct2019',
-//             region: 'us-east-1',
-//             accessKey: 'AKIATGCGWC4INBMWWS5E',
-//             secretKey: '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',
-//             successActionStatus: 201
-  
+//       
 //         }
 //         RNS3.put(file, options).then(response => {
 //             console.log(response)
