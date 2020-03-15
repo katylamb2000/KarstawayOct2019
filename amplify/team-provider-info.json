@@ -1,18 +1,19 @@
 {
-    "test": {
+    "dev": {
         "awscloudformation": {
-            "AuthRoleName": "karstawayoct2019-test-20191002203741-authRole",
-            "UnauthRoleArn": "arn:aws:iam::219191580432:role/karstawayoct2019-test-20191002203741-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::219191580432:role/karstawayoct2019-test-20191002203741-authRole",
+            "AuthRoleName": "amplify-karstawayoct2019-dev-181135-authRole",
+            "UnauthRoleArn": "arn:aws:iam::219191580432:role/amplify-karstawayoct2019-dev-181135-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::219191580432:role/amplify-karstawayoct2019-dev-181135-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "karstawayoct2019-test-20191002203741-deployment",
-            "UnauthRoleName": "karstawayoct2019-test-20191002203741-unauthRole",
-            "StackName": "karstawayoct2019-test-20191002203741",
-            "StackId": "arn:aws:cloudformation:us-east-1:219191580432:stack/karstawayoct2019-test-20191002203741/6dc23680-e511-11e9-88b0-1211ae29fc7a"
+            "DeploymentBucketName": "amplify-karstawayoct2019-dev-181135-deployment",
+            "UnauthRoleName": "amplify-karstawayoct2019-dev-181135-unauthRole",
+            "StackName": "amplify-karstawayoct2019-dev-181135",
+            "StackId": "arn:aws:cloudformation:us-east-1:219191580432:stack/amplify-karstawayoct2019-dev-181135/c31932f0-5a55-11ea-9c4b-0e4a688d3275",
+            "AmplifyAppId": "d2ebxohudzfnlc"
         },
         "categories": {
             "auth": {
-                "karstawayoct201963a7618e": {}
+                "karstawayoct2019aebe6c7d": {}
             }
         }
     }

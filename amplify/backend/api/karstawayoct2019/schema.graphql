@@ -1,5 +1,132 @@
-type user @model {
+type Post @model {
   id: ID!
   name: String!
+  description: String
+}, 
+
+type StudentProfile @model
+@key(name: "ByOwner", fields: ["owner"], queryField: "ByOwner") 
+
+
+ @auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]   
+)
+{
+  owner: String 
+  name: String!
+  bio: String
+  avatar: String
+  id: ID! 
+  company: [Company] @connection
+  
+  teacher: Teacher @connection(fields: ["id"])
+  messages: [Message]! @connection(keyName: "byStudent", fields: ["id"])
+ 
+}
+
+type Message @model 
+@key(name: "byStudent", fields: ["studentProfileID"], queryField: "byStudent")
+@key(name: "byMessageOwner", fields: ["owner"], queryField: "byMessageOwner")
+@key(name: "byMessageSender", fields: ["senderID"], queryField: "byMessageSender")
+
+@auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]  ) 
+
+{ 
+  owner: String
+  sender: StudentProfile @connection(fields: ["senderID"])
+  senderID: ID!
+  id: ID!
+  body: String!
+  studentProfileID: ID!
+  recipient: StudentProfile @connection(fields: ["studentProfileID"])
+
+  
+  
   
 }
+
+
+
+type Picture @model   @auth  (
+    rules: [
+       
+        { allow: owner }
+    ]
+){
+  id: ID!
+  owner: String
+
+  uri: String
+}
+
+
+type Teacher @model 
+@key(name: "teacherByStudentProfileId", fields: ["studentProfileID"], queryField: "teacherByStudentProfileId" )
+  @auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]
+)
+  {
+  id: ID!
+  teacherName: String!
+  teacherBio: String
+  nationality: String
+  teacherAvatar: String
+  studentProfileID: ID!
+  student: StudentProfile @connection(fields: ["studentProfileID"])
+}
+
+type Company @model 
+@key(name: "CompanyAdminOwner", fields: ["owner"], queryField: "CompanyAdminOwner") 
+
+@auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]
+)
+
+{
+  id: ID!
+
+  companyName: String
+  logo: String
+  bio: String
+  verified: Boolean
+  owner: String
+  programs: [Program] @connection(keyName: "byCompany", fields: ["id"])
+
+
+}
+
+
+type Program @model 
+@key(name: "byCompany", fields: ["companyID"]) 
+
+@auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]
+)
+{
+  id: ID!
+  name: String
+  location: String
+  image: String
+  description: String
+  verified: Boolean
+  companyID: ID!
+  company: Company @connection(fields: ["companyID"])
+
+}
+

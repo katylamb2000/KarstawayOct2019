@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "karstawayoct201963a7618e_identitypool_63a7618e",
+    "identityPoolName": "karstawayoct2019aebe6c7d_identitypool_aebe6c7d",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "karsta63a7618e",
-    "userPoolName": "karstawayoct201963a7618e_userpool_63a7618e",
+    "resourceNameTruncated": "karstaaebe6c7d",
+    "userPoolName": "karstawayoct2019aebe6c7d_userpool_aebe6c7d",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,9 +28,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "karsta63a7618e_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "karstaaebe6c7d_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "karstawayoct201963a7618e",
+    "resourceName": "karstawayoct2019aebe6c7d",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,5 +45,6 @@
         ]
     },
     "useDefault": "default",
+    "userPoolGroupList": [],
     "dependsOn": []
 }

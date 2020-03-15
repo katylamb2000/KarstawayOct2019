@@ -23,32 +23,40 @@ export default class CameraExample extends React.Component {
       let photo = await this.camera.takePictureAsync()
       .then( photo => {
           console.log(photo)
+          const name = new Date().getUTCMilliseconds();
           const file = {
               uri: photo.uri,
-              name: 'photo.jpg',
+              height: 100,
+              name: name + ".jpg",
               type: 'image/jpg'
 
           }
     //   this.setState({
     //       uri: photo.uri
     //   })
+
+
+
      
       const options = {
           keyPrefix: 'images/',
-          bucket: 'karstawayoct2019',
-          region: 'us-east-1',
-          accessKey: 'AKIATGCGWC4IAFF7M2KI',
-          secretKey: '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',
+          bucket: 'londonkarstway',
+          region: 'eu-west-2',
+          accessKey: 'AKIATGCGWC4INBMWWS5E',
+          secretKey: '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',
           successActionStatus: 201
+         
 
       }
       RNS3.put(file, options).then(response => {
           this.setState({
               aws3Uri: response.body.postResponse.location
           })
+          console.log(this.state.aws3Uri)
           this.props.navigation.navigate('profile', {
             photo: this.state.aws3Uri
         }) 
+        
           if(response.body.staus !== 201) {
               throw new Error('Failed to upload image', response);
           }
@@ -76,6 +84,7 @@ export default class CameraExample extends React.Component {
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
+                justifyContent: 'space-between'
               }}>
               <TouchableOpacity
                 style={{
@@ -97,11 +106,21 @@ export default class CameraExample extends React.Component {
               <TouchableOpacity
                 style={{
                   flex: 0.1,
-                  
+                  alignSelf: 'flex-end',
                   alignItems: 'center',
                 }}
                 onPress={this.snap}>
                 <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> take pic </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
+                  flex: 0.1,
+                  alignSelf: 'flex-end',
+                  alignItems: 'center',
+                }}
+                onPress={() => this.props.navigation.navigate('Video')}>
+                <Text style={{ fontSize: 18, marginBottom: 10, color: 'white', fontWeight: 700 }}> Video </Text>
               </TouchableOpacity>
               
             </View>
@@ -111,3 +130,59 @@ export default class CameraExample extends React.Component {
     }
   }
 }
+
+// import * as React from 'react';
+// import { Button, Image, View } from 'react-native';
+// import * as ImagePicker from 'expo-image-picker';
+// import Constants from 'expo-constants';
+// import * as Permissions from 'expo-permissions';
+
+// export default class ImagePickerExample extends React.Component {
+//   state = {
+//     image: null,
+//   };
+
+//   render() {
+//     let { image } = this.state;
+
+//     return (
+//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//         <Button
+//           title="Pick an image from camera roll"
+//           onPress={this._pickImage}
+//         />
+//         {image &&
+//           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+//       </View>
+//     );
+//   }
+
+//   componentDidMount() {
+//     this.getPermissionAsync();
+//     console.log('hi');
+//   }
+
+//   getPermissionAsync = async () => {
+//     if (Constants.platform.ios) {
+//       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+//       if (status !== 'granted') {
+//         alert('Sorry, we need camera roll permissions to make this work!');
+//       }
+//     }
+//   }
+
+//   _pickImage = async () => {
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.All,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1
+//     });
+
+//     console.log(result);
+
+//     if (!result.cancelled) {
+//       this.setState({ image: result.uri });
+//     }
+//   };
+// }

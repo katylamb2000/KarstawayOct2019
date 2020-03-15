@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
 import { FlatList } from 'react-native'
 import { Post } from "../presentation"
+
 class PostFeed extends Component {
+
+    constructor(props) {
+        super(props)
+     
+}
 
     _renderPost(){
         return <Post />
+        // <Post navigation={this.props.navigation} />
     }
 
     _returnKey(item) {

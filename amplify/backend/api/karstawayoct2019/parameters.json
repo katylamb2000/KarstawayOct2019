@@ -1,5 +1,11 @@
 {
     "AppSyncApiName": "karstawayoct2019",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "DynamoDBEnableServerSideEncryption": "false"
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authkarstawayoct2019aebe6c7d",
+            "Outputs.UserPoolId"
+        ]
+    }
 }
