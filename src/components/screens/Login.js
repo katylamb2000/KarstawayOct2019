@@ -1,106 +1,129 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Button, TextInput } from 'react-native'
 import { Auth } from 'aws-amplify'
+import { API, graphqlOperation } from 'aws-amplify'
+import PubSub from '@aws-amplify/pubsub';
+import  MainFeed  from '../screens/MainFeed'
+import { byOwner } from '../../graphql/queries'
+import awsmobile from '../../../aws-exports';
+API.configure(awsmobile)  
+
+
+import actions from "../../redux/actions";
+import { connect } from "react-redux";
+// import { getUser } from "../../graphql/queries"
+import { createStudentProfile} from "../../graphql/mutations"
+import UserDetailsForm from './UserDetailsForm'
+import { getSupportedVideoFormats } from 'expo/build/AR';
+// import { MainFeed } from '.';
+
 
 class Login extends Component {
 
     constructor() {
         super()
         this.state = {
-                username: "",
-                password:"",
-                user: {}
-      
+                username: null,
+                student: null,
+                name: null
         }
     }
 
 
 
-    updateUserName(username){
-       
+
+    componentWillMount(){
+  
+     Auth.currentSession()
+    .then(data => {
+ 
+        // this.setState({
+        //     username: item.username
+        // })
+  //     })}
+ const name = data.accessToken.payload.username
+//  this.setState({
+//    name: name
+//  })
+this.getProfile(name)
+// this.userReceived(name)
+
+    })
+    .catch(err => console.log(err));
+    }
+
+    getProfile = async(name) =>{
+      // const owner = this.state.username
+     
+     const student = await API.graphql(graphqlOperation(byOwner, {owner: name}))
+     
+     this.setState({student: student.data.ByOwner.items})
+     this.props.studentProfileRecieved(this.state.student)
+      {this.state.student.map(blob => {
+        console.log("WHat is Student!!!!!!!", this.state.student)
         this.setState({
-            username: username
-            
+          name: blob.name
         })
-    }
+        // {this.state.student.name? 
+        //   studentProfileReceived(student)
+        //   : null
+        // }
+        
 
-
-    updateText(password){
-       
-        this.setState({
-            password: password
-        })
-    }
-
-    login(){
-        const { username, password} = this.state
-        Auth.signIn({username, password})
-        .then( data => {(console.log(data))
-            console.log('sign in successful!')
-
-            this.props.navigation.navigate('main', {
-                user: data.username
-            })
-        })
-          
-
-            .catch(e => {
-                console.log(e);
-            })
-    }
-    // confirmSignIn(){
-    //     Auth.confirmSignIn(this.state.user, this.state.confirmationCode)
-    //     .then(() => console.log('successful confim sign in!'))
-    //     .catch( err => console.log('error confirming signing in!: ', err))
-    // }
-    render(){
-        return (
-            // <View style={{flex: 1}} >
-            // <TouchableOpacity
-            //     style={{
-            //         height: 100+ '%',
-            //         width:  100+ '%',
-            //         flex: 1, 
-            //         alignItems: 'center',
-            //         justifyContner: 'center'
-            //     }}
-            //     onPress={() => (
-            //         this.login()
-            //     )}
-            //  >
-            //         <Text style={{fontWeight: 'bold'}}>New User? </Text> 
-            //     </TouchableOpacity>
-            //     </View>
-
-
-<View style={{
-                flex: 2,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                    backgroundColor:  '#651FFF'
-                    
-                }} >
-        <TextInput autoCorrect={false} value={this.state.username} onChangeText={(text) => this.updateUserName(text, 'username')} placeholder="username" style={{width: 100 + '%', height: 50, backgroundColor:  'white', borderBottomColor: '#311B92', borderBottomWidth: 3 }} />
-        <TextInput value={this.state.password} onChangeText={text => this.updateText(text, 'password')} placeholder='password' style={{width: 100 + '%', height: 50, backgroundColor:  'white', borderBottomColor: '#311B92'}} secureTextEntry/>
-         {/* <TextInput onChangeText={value => this.addConfirmationCode(value)}  style={{width: 100 + '%', height: 50, backgroundColor:  'white', borderBottomColor: '#311B92'}} placeholder='confirmation code' />       */}
-   <Button onPress={() => (
-          this.login()
-      )} style={{fontWeight: 'bold'}} title='SIGN IN'/> 
-   
-   {/* <Button onPress={() => (
-          this.confirmSignIn()
-      )} style={{fontWeight: 'bold'}} title='Confirm'/>  */}
-    <Button  onPress={() => 
-                    this.props.navigation.navigate('register')
-           }
-        title='Sign Up' />
+      })}
       
-                        
-</View>
-       
-        )
-    }
-} 
+  // console.log('returned student profile!', student.data.ByOwner.items, "STUDENT", student)
+  
+     
+}
 
-export default Login
+
+   
+    render(){
+      
+        return (
+          <View> 
+            <Text>LOADING </Text> 
+      {this.state.name? 
+      
+      // <MainFeed student={this.state.student}  />
+       
+          
+          
+this.props.navigation.navigate('main')
+  
+          
+       
+    : 
+
+   this.props.navigation.navigate('userDetailsForm')
+      
+          // <UserDetailsForm  getProfile={() => this.getProfile()}  name={this.state.name} />
+           }
+
+
+
+   </View>
+        )}  
+}
+
+    
+
+
+const mapStateToProps = state => {
+    return {
+        // user: state
+    }
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+    // userReceived: user => dispatch(actions.userReceived(user)),
+    studentProfileRecieved: student  => dispatch(actions.studentProfileRecieved(student))
+      
+    };
+  
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Login);
+  

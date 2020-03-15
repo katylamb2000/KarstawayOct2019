@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Video } from 'expo-av'
 import VideoPlayer from 'expo-video-player'
-import Classroom from '../screens/Classroom'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { withNavigation } from 'react-navigation'
+
+import actions from "../../redux/actions"
+import { connect } from "react-redux";
+
+
+// import Profile from '../screens/Profile'
 
 
 class Post extends Component {
@@ -10,22 +17,28 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-    
-            openClassroom: false
+            name: "ORIGINAL NAME",
+            openClassroom: false,
+            postOwner: ''
       
    
         }
 }
 
 
-    openClassroom() {
-        this.setState({
-            openClassroom: !this.state.openClassroom
-        })
-        console.log("open classroom!", this.state.openClassroom)
-        
-        // this.props.navigation.navigate('classroom')
-        }
+
+viewPostOwner(){
+  const owner = this.state.name
+  
+  this.props.ownerReceived(owner);
+  this.props.navigation.navigate('teacherPageTabs')
+  console.log("right whats next?", this.state.postOwner)
+}
+
+
+  
+
+
     render(){
         return(
       
@@ -37,36 +50,60 @@ class Post extends Component {
     <Classroom /> : null}
                 <View style={styles.userBar}>
                     <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                   
+                     <TouchableOpacity onPress={() => this.viewPostOwner() }>
+            
                     <Image 
                     style={{width: 30, height: 30, borderRadius: 20, paddingLeft: 15}}
                     source={{uri: 'https://miro.medium.com/fit/c/256/256/0*U3VpFCH5wVOO56gg'}}/>
-                     <Text style={{paddingLeft: 10}}>Teacher Bobby </Text> 
-                     
+                     <Text style={{paddingLeft: 10}}>{this.state.name} </Text> 
+                     </TouchableOpacity>
+
                     </View> 
                     <View style={{alignItems: 'center'}}> 
                     <Text style={{fontSize: 30, paddingRight: 15}}> ...</Text>
                     </View>
                 </View> 
 
+
                 <VideoPlayer
   videoProps={{
-    shouldPlay: true,
+    shouldPlay: false,
     
-    resizeMode: Video.RESIZE_MODE_COVER,
+    resizeMode: Video.RESIZE_MODE_CONTAIN,
     source: {
-      uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      uri: 'https://londonkarstway.s3.eu-west-2.amazonaws.com/Videos/KatyIntro.MOV',
     },
   }}
-  inFullscreen={true}
-  width={200}
-      height={200}
-/>
+     inFullscreen={true}
+
+/> 
+  
+  
+
+
+
+
+
 
 <View style={styles.iconBar}>
-                    <Image 
+<TouchableOpacity> 
+<Icon name="heart" size={20} style={{paddingLeft: 10, paddingTop: 5}} color='red' />
+</TouchableOpacity>
+
+<TouchableOpacity onPress={() => this.props.navigation.navigate('teacherPageTabs')}> 
+<Icon name="comment" size={30} style={{paddingLeft: 10, paddingTop: 5}} color='black' />
+</TouchableOpacity>
+
+<TouchableOpacity> 
+<Icon name="television" size={20} style={{paddingLeft: 10, paddingTop: 5}} color='red' />
+</TouchableOpacity>
+
+{/* <TouchableOpacity> 
+<Icon name="" size={20} style={{paddingLeft: 10, paddingTop: 5}} color='red' />
+</TouchableOpacity> */}
+                    {/* <Image 
                     style={{height: 20 , width: 20}}
-                    source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/44/71/heart-icon-line-outline-love-symbol-vector-21084471.jpg'}} /> 
+                    source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/44/71/heart-icon-line-outline-love-symbol-vector-21084471.jpg'}} />  */}
             </View>
             <View style={{alignItems: 'center'}}> 
                     <Text style={{fontSize: 12, paddingRight: 15}}> Teacher Bobby will teach you how to go hiking. </Text>
@@ -85,9 +122,24 @@ class Post extends Component {
                     <Text style={{fontSize: 30, paddingRight: 15}}> ...</Text>
                     </View>
                 </View>
+
+           
+                <VideoPlayer
+  videoProps={{
+    shouldPlay: false,
+    
+    resizeMode: Video.RESIZE_MODE_COVER,
+    source: {
+      uri: 'https://londonkarstway.s3.eu-west-2.amazonaws.com/Videos/Raising+a+Reader+_+How+to+Read+to+Children+_+AD.mp4',
+    },
+  }}
+//   inFullscreen={true}
+  width={400}
+    height={200}
+/>
      
 
-                <TouchableOpacity onPress={() => (this.openClassroom())}>
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate('teacherPageTabs')}}>
              
 
                 <Image            
@@ -102,7 +154,7 @@ class Post extends Component {
                     style={{height: 20 , width: 20}}
                     source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/44/71/heart-icon-line-outline-love-symbol-vector-21084471.jpg'}} /> 
             </View>
-            <View style={{alignItems: 'center'}}> 
+            <View style={{paddingLeft: 10 }}> 
                     <Text style={{fontSize: 12, paddingRight: 15}}> Learn about everything you will need to start your day on this trip. </Text>
                     </View>
                 </View>
@@ -129,10 +181,30 @@ const styles = StyleSheet.create({
        justifyContent: 'space-between'
    },
    iconBar: {
-       height: 30,
+       height: 50,
        borderBottomWidth: StyleSheet.hairlineWidth,
        borderTopWidth: StyleSheet.hairlineWidth,
-       borderColor: 'black'
+       borderColor: 'grey',
+       flexDirection: 'row',
+       alignItems: 'center',
+       alignContent: 'center'
    }
 })
-export default Post
+const PostwithNavigation = withNavigation(Post)
+
+
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    ownerReceived: owner => dispatch(actions.ownerReceived(owner))
+    
+  };
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostwithNavigation)
+;

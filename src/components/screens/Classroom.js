@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import { TextInput, ScrollView } from 'react-native-gesture-handler'
+import { Video } from 'expo-av'
+import VideoPlayer from 'expo-video-player'
+import { Icon } from 'react-native-elements'
 
 class Classroom extends Component {
 
@@ -8,22 +11,17 @@ class Classroom extends Component {
     
     render(){
         return (
+            <View> 
+            <ScrollView> 
             <View style={{flex: 1}}>
-          
-                {/* <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-               
-                
-                 <Text style={{paddingLeft: 10}}>Add text </Text> 
-                 
-                </View>  */}
-               
-               
-                <View>
-                    <Text>Classroom</Text>
-                </View>
-
-
-                </View>
+               <Text> 
+                    Classroom
+                </Text> 
+              
+            </View>
+     </ScrollView>
+    
+    </View>
            
         )
     }

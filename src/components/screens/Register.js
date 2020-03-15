@@ -2,11 +2,33 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Button, TextInput } from 'react-native'
 import axios from 'axios'
 import { createUser } from '../../graphql/mutations'
-// import { Auth } from 'aws-amplify'
-// import Auth from '@aws-amplify/auth'
+import { Auth } from 'aws-amplify'
+import actions from "../../redux/actions";
+import { connect } from "react-redux";
+import { byOwner } from '../../graphql/queries'
+// import  {API,  graphqlOperation } from '@ws-amplify/api'
+import { API, graphqlOperation } from 'aws-amplify'
+import awsmobile from '../../../aws-exports';
+API.configure(awsmobile)      
+
+
+// Amplify.configure({
+//     Auth: {
+  
+      
+  
+//       // IdentityPoolId: 'us-east-1:ed99a0bd-fef8-4a69-becd-639ca24ddcbd',
+//       userPoolId: 'us-east-2_pvaoe5T59',
+//       userPoolWebClientId: '49kis48putnd8tmd848prgmt2k',
+//         // REQUIRED - Amazon Cognito Region
+//         region: 'us-east-2'
+//     }
+//   })
 
 
 class Register extends Component {
+
+    
 
     constructor() {
         super()
@@ -20,6 +42,18 @@ class Register extends Component {
             // }
         }
     }
+    componentDidMount(){this.getStudentProfile()}
+    getStudentProfile = async() =>{
+        const owner = this.props.user.account.user
+        console.log("WHAT IS OWNER???", owner)
+        student = await API.graphql(graphqlOperation(byOwner, {owner: owner})
+      
+                 
+        )
+  console.log(student)
+    }
+
+
 
     updateEmail(email){
        
@@ -51,53 +85,43 @@ class Register extends Component {
         })
     }
 
-    
-       async signUp() {
-           console.log(this.state)
-           const {username, email, password} = this.state
-           await Auth.signUp({
-            username,
-            
-            password,
-            attributes: {
-                email
-            }
-           })
-           .then(user => {
-            this.setState({ user })
-            console.log('sign up successful!')
-            console.log(this.state.user)
-            // this.props.navigation.navigate('main', {
-            //     user: this.state.user
-            // })
-          .catch(err => {
-            if (err.message) {
 
-              console.log('Error when signing up: ', err)
-              alert('Error when signing up: ', err)
-            } else {
+    signUp = async () => {
+        const { username, password, email } = this.state
+        try {
+          const userA = await Auth.signUp({ username, password, attributes: { email }})
+          console.log('user successfully signed up!: LOOOKING FOR USERSUB', userA.userSub)
+          const user = userA.user
+          this.props.userReceived(userA);
+          this.setState({ 
+              showConfirmationForm: true
 
-              console.log('Error when signing up: ', err.message)
-              alert('Error when signing up: ', err.message)
-            }
-          })
-        })
-    }
-
-    confirmSignUp(){
-        const {username, code} = this.state
-
-        Auth.confirmSignUp(username, code)
-
+         })
+        } catch (err) {
+          console.log('error signing up: ', err)
+        }
+      }
+      confirmSignUp = async () => {
+        const { username, code } = this.state
+        try {
+          const success = await Auth.confirmSignUp(username, code)
+          console.log('successully signed up!', success)
+         alert('User signed up successfully!')
+        //   const authenticatedUser =  await Auth.currentAuthenticatedUser()
+        //   console.log('AUTHENTICATED USED METHOD CALLED:', authenticatedUser)
+        //   this.setState({ ...initialState })
         
-        .then( data => {(console.log(data))
-            
-        this.props.navigation.navigate('main')
-    })}
-        
+        //  this.setState({ user, showConfirmationForm: true })
+        //  this.props.navigation.navigate('userDetailsForm')
+         this.props.navigation.navigate('main')
 
-        // .catch(console.log('error confirming signing in: '))
+        } catch (err) {
+          console.log('error confirming signing up: ', err)
+        }
+      }
     
+
+ 
 
     render(){
         return (
@@ -134,4 +158,16 @@ class Register extends Component {
 
 
 
-export default Register
+const mapStateToProps = state => {
+    return {};
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+    userReceived: user => dispatch(actions.userReceived(user))
+      
+    };
+  
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Register);

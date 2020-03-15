@@ -7,10 +7,9 @@
 				"authConfig": {
 					"additionalAuthenticationProviders": [],
 					"defaultAuthentication": {
-						"authenticationType": "API_KEY",
-						"apiKeyConfig": {
-							"description": "key",
-							"apiKeyExpirationDays": "300"
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authkarstawayoct2019aebe6c7d"
 						}
 					}
 				}
@@ -18,10 +17,17 @@
 		}
 	},
 	"auth": {
-		"karstawayoct201963a7618e": {
+		"karstawayoct2019aebe6c7d": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": []
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
+	"storage": {
+		"KarstawayS3Storage2020": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
 		}
 	}
 }
