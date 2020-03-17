@@ -38,16 +38,7 @@ export default class CameraExample extends React.Component {
 
 
      
-      const options = {
-          keyPrefix: 'images/',
-          bucket: 'londonkarstway',
-          region: 'eu-west-2',
-          accessKey: 'AKIATGCGWC4INBMWWS5E',
-          secretKey: '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',
-          successActionStatus: 201
-         
-
-      }
+    
       RNS3.put(file, options).then(response => {
           this.setState({
               aws3Uri: response.body.postResponse.location
