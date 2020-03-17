@@ -87,17 +87,23 @@ handleChangeAvatar(text ){
         //   }
 
           createTeacher = async () => {
+              
             const { teacherName, nationality, teacherAvatar, teacherBio } = this.state
-          const studentID = this.props.studentID
+          const studentID = this.props.navigation.state.params.studentID
             try {
                const teacher = await API.graphql(graphqlOperation(createTeacher, { input: {teacherName: teacherName, nationality: nationality, teacherBio: teacherBio, teacherAvatar: teacherAvatar, studentProfileID: studentID}}))
-                console.log('new company!!!!', teacher)
+                console.log('new company!!!!', teacher.data.createTeacher)
                 this.setState({
-                  teacher: teacher
-                }).then( this.props.navigation.navigate('MyTeachingPage'))
-                
-             
-             }
+                    teacher: teacher.data.createTeacher
+                  })
+                 
+                const t = this.state.teacher
+                this.props.switchedToTeaching(t)
+                t.map(teacher => {
+                    this.setState({teacher: teacher.teacherName})
+                  })
+              }
+
              catch (err) {
               console.log('error signing up teacher: ', err)
             }
@@ -108,6 +114,7 @@ handleChangeAvatar(text ){
  
 
     render(){
+        console.log("trying to get ID" , this.props.navigation.state.params.studentID)
         return (
             <View style={{flex: 1, alignItems: 'center', justifyContner: 'center'}}>
    
@@ -130,7 +137,9 @@ handleChangeAvatar(text ){
       </View>                     
 </View>
 
-
+{this.state.teacher ? 
+this.props.navigation.navigate('MyTeachingPage')
+: null}
 
                 </View> 
         )}
@@ -140,12 +149,14 @@ handleChangeAvatar(text ){
 
 
 const mapStateToProps = state => {
-    return {};
+    return {
+        student: state
+    };
   };
   
   const mapDispatchToProps = dispatch => {
     return {
-    // userReceived: user => dispatch(actions.userReceived(user))
+        switchedToTeaching: teacher => dispatch(actions.switchedToTeaching(teacher))
       
     };
   

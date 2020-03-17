@@ -23,19 +23,21 @@ class Settings extends Component {
     showCompany: false,
     addAProgramForm: false,
     company: {},
-    showNewTeacherForm: false
+    showNewTeacherForm: false,
+    openNewteacherForm: false
     }
 }
 
-// componentWillMount(){
+componentWillMount(){
 
-//   console.log("Looking for the teacher profile" , this.props.student.studentProfileReducer.student)
-//   {this.props.student.studentProfileReducer.student.map(student => {
-//     this.setState({
-//         student: student.id
-//     }) 
-//   })}
-// }
+  console.log("Looking for the teacher profile" , this.props.student.studentProfileReducer.student)
+  {this.props.student.studentProfileReducer.student.map(student => {
+    this.setState({
+        student: student,
+        id: student.id
+    }) 
+  })}
+}
 
 updateText(name){
   this.setState({
@@ -65,6 +67,13 @@ updateText(name){
         }
       }
 
+      goToTeaching(){
+        this.state.teacherName ? 
+        this.props.navigation.navigate('MyTeachingPage')
+        :
+        this.props.navigation.navigate('NewTeacherForm', {studentID: this.state.id})
+      }
+
 //   createNewProgram = async()=>{
 //     const companyID = this.statw.companyID
 //     console.log("DO SOMETHING!!!!!!", owner)
@@ -76,27 +85,46 @@ updateText(name){
 //         company: company.data.CompanyAdminOwner.items
 //     })}
 
-  //   getTeacher = async()=>{
-  //     this.setState({
-  //       showNewTeacherForm: !this.state.showNewTeacherForm
-  //     })
-  //     const id = this.state.student
+    getTeacher = async ()=>{
       
       
-  //     teacher = await API.graphql(graphqlOperation(teacherByStudentProfileId, {studentProfileID: id}) )
+      this.setState({
+       
+        showNewTeacherForm: !this.state.showNewTeacherForm
+      })
+    
   
-  //     this.setState({
-  //       teacher: teacher.data.teacherByStudentProfileId.items
-  //     })
-  //     const t = this.state.teacher
-  //     this.props.switchedToTeaching(t)
-  //    t.map(teacher => {
-  // this.setState({teacherName: teacher.teacherName})
+    try{
+     
+      teacher = await API.graphql(graphqlOperation(teacherByStudentProfileId, {studentProfileID: this.state.id}) )
+      console.log("what is teacher", teacher)
+      this.setState({
+        teacher: teacher.data.teacherByStudentProfileId.items
+      })
+     
+      const t = this.state.teacher
+      this.props.switchedToTeaching(t)
+     t.map(teacher => {
+  this.setState({teacherName: teacher.teacherName})
+})
+this.goToTeaching()
+    }
 
-      // this.setState({
-      //     company: company.data.CompanyAdminOwner.items
-      // })}
-    // })}
+
+  
+    
+catch{
+  
+  this.setState({
+    openNewteacherForm: !openNewteacherForm
+  })
+}
+    }
+  // console.log("getting studentprofileID", this.state.teacherName)
+
+  
+ 
+    
 
 showCompany(){
   console.log("Props in settings", this.state.student)
@@ -111,7 +139,7 @@ showCompany(){
     this.setState({
       showNewTeacherForm: !this.state.showNewTeacherForm
     })
-    this.props.teacherSelected(teacher)
+    // this.props.teacherSelected(teacher)
     // this.state.showNewTeacherForm? this.props.navigation.navigate('About') :
     // null
   }
@@ -160,42 +188,15 @@ showCompany(){
 
               </TouchableOpacity>
               </View> */} 
-             {this.state.showNewTeacherForm &&
-               this.state.teacherName ?
-              // && this.state.teacher ? 
-              
-//               <ScrollView>
-//   {this.state.teacher.map(teacher => {
-// <Text> {teacher.name} </Text>
-//     //    <Card
-
-//     //    title={teacher.name}
-//     //    image={{uri: this.state.student.avatar}} >
-//     //    <Text style={{marginBottom: 10}}>
-//     //        Courses
-//     //    </Text>
-//     //    <Button
-//     //       // const id = {classmate.id}
-//     //       // onPress={() => console.log(classmate)} 
-//     //   onPress={() => console.log(teacher)} 
-//     //      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-//     //      title='VIEW NOW' /> 
-//     //  </Card> 
-//   })}
-//         </ScrollView>
-
-this.props.navigation.navigate('MyTeachingPage') :
-
-
- <NewTeacherForm createTeacher={() => this.createTeacher()} studentID={this.state.student} /> }
-
-
-
-
            
-     </ScrollView>
+       
+         
+              
+             </ScrollView>
+     </View> 
+
     
-    </View>
+
            
         )
     }
