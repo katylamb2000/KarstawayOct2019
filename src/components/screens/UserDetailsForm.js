@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Button, TextInput } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Button, TextInput, Image } from 'react-native'
 import { Auth } from 'aws-amplify'
 import { API, graphqlOperation } from 'aws-amplify'
 import PubSub from '@aws-amplify/pubsub';
 import awsmobile from '../../../aws-exports';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 API.configure(awsmobile)  
 
 
@@ -21,12 +24,45 @@ class UserDetailsForm extends Component {
         this.state = {
                 name: "",
                 bio: "",
-                avatar: ""
+                avatar: '',
+                image: null
                
              
       
         }
      }
+
+     componentDidMount() {
+        this.getPermissionAsync();
+        console.log('hi');
+      }
+    
+      getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      }
+    
+      _pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1
+        });
+    this.setState({
+        avatar: result.uri
+    })
+        console.log(result);
+    
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+      }
+    
 
     // getPermissionAsync = async () => {
     //     if (Constants.platform.ios) {
@@ -86,7 +122,7 @@ updateUserDetails = async () => {
         }  
  
     render(){
-        
+        let { image } = this.state;
         return (
         
    <View style={{flex: 1, alignItems: "center", alignContent: "center", justifyContent: "space-between", flexDirection: "column"}}>       
@@ -95,8 +131,17 @@ updateUserDetails = async () => {
     <View> 
         <TextInput autoCorrect={false} value={this.state.name} onChangeText={(text) => this.updateName(text, 'name')} placeholder="name" style={{width: 300, height: 50, backgroundColor:  'white', borderBottomColor: '#311B92', borderBottomWidth: 3 }} />
         <TextInput value={this.state.bio} onChangeText={text => this.updateBio(text, 'bio')} placeholder='bio' style={{width: 300, height: 50, backgroundColor:  'white', borderBottomColor: '#311B92'}} />
-        <TextInput value={this.state.picture} onChangeText={text => this.updatePicture(text, 'picture')} placeholder='picture' style={{width: 300, height: 50, backgroundColor:  'white', borderBottomColor: '#311B92'}} />
+        {/* <TextInput value={this.state.picture} onChangeText={text => this.updatePicture(text, 'picture')} placeholder='picture' style={{width: 300, height: 50, backgroundColor:  'white', borderBottomColor: '#311B92'}} /> */}
     </View>
+
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          title="Pick an image from camera roll"
+          onPress={this._pickImage}
+        />
+        {image &&
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      </View>
 
 
     <View style={{flex: 2 }}>

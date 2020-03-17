@@ -25,6 +25,7 @@ import Company from './Company'
 import AddAProgramForm from './AddAProgramForm'
 import Discover from './Discover'
 import NewMessage from './NewMessage'
+import NewTeacherForm from './NewTeacherForm'
 export {
     MainFeed,
     Login,
@@ -52,6 +53,7 @@ export {
     NewCompanyForm,
     Company,
     AddAProgramForm,
-    MyTeachingPage
+    MyTeachingPage,
+    NewTeacherForm
 
 }
