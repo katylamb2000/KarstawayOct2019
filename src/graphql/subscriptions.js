@@ -2,38 +2,1172 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost {
-    onCreatePost {
+  subscription OnCreatePost($owner: String!) {
+    onCreatePost(owner: $owner) {
       id
       name
-      description
+      url
+      isAVideo
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      comments {
+        items {
+          id
+          body
+          postID
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost {
-    onUpdatePost {
+  subscription OnUpdatePost($owner: String!) {
+    onUpdatePost(owner: $owner) {
       id
       name
-      description
+      url
+      isAVideo
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      comments {
+        items {
+          id
+          body
+          postID
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost {
-    onDeletePost {
+  subscription OnDeletePost($owner: String!) {
+    onDeletePost(owner: $owner) {
       id
       name
-      description
+      url
+      isAVideo
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      comments {
+        items {
+          id
+          body
+          postID
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onCreateCourse = /* GraphQL */ `
+  subscription OnCreateCourse($owner: String!) {
+    onCreateCourse(owner: $owner) {
+      id
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      teacherID
+      title
+      description
+      thumbnail
+      level
+      lessonVideos {
+        items {
+          id
+          courseID
+          title
+          description
+          thumbnail
+          url
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onUpdateCourse = /* GraphQL */ `
+  subscription OnUpdateCourse($owner: String!) {
+    onUpdateCourse(owner: $owner) {
+      id
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      teacherID
+      title
+      description
+      thumbnail
+      level
+      lessonVideos {
+        items {
+          id
+          courseID
+          title
+          description
+          thumbnail
+          url
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onDeleteCourse = /* GraphQL */ `
+  subscription OnDeleteCourse($owner: String!) {
+    onDeleteCourse(owner: $owner) {
+      id
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      teacherID
+      title
+      description
+      thumbnail
+      level
+      lessonVideos {
+        items {
+          id
+          courseID
+          title
+          description
+          thumbnail
+          url
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onCreateLessonVideo = /* GraphQL */ `
+  subscription OnCreateLessonVideo($owner: String!) {
+    onCreateLessonVideo(owner: $owner) {
+      id
+      course {
+        id
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        teacherID
+        title
+        description
+        thumbnail
+        level
+        lessonVideos {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courseID
+      title
+      description
+      thumbnail
+      url
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onUpdateLessonVideo = /* GraphQL */ `
+  subscription OnUpdateLessonVideo($owner: String!) {
+    onUpdateLessonVideo(owner: $owner) {
+      id
+      course {
+        id
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        teacherID
+        title
+        description
+        thumbnail
+        level
+        lessonVideos {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courseID
+      title
+      description
+      thumbnail
+      url
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onDeleteLessonVideo = /* GraphQL */ `
+  subscription OnDeleteLessonVideo($owner: String!) {
+    onDeleteLessonVideo(owner: $owner) {
+      id
+      course {
+        id
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        teacherID
+        title
+        description
+        thumbnail
+        level
+        lessonVideos {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courseID
+      title
+      description
+      thumbnail
+      url
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onCreateTeacher = /* GraphQL */ `
+  subscription OnCreateTeacher($owner: String!) {
+    onCreateTeacher(owner: $owner) {
+      id
+      teacherName
+      teacherBio
+      nationality
+      teacherAvatar
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      introductionVideo {
+        id
+        title
+        url
+        description
+        teacherID
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courses {
+        items {
+          id
+          teacherID
+          title
+          description
+          thumbnail
+          level
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onUpdateTeacher = /* GraphQL */ `
+  subscription OnUpdateTeacher($owner: String!) {
+    onUpdateTeacher(owner: $owner) {
+      id
+      teacherName
+      teacherBio
+      nationality
+      teacherAvatar
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      introductionVideo {
+        id
+        title
+        url
+        description
+        teacherID
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courses {
+        items {
+          id
+          teacherID
+          title
+          description
+          thumbnail
+          level
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onDeleteTeacher = /* GraphQL */ `
+  subscription OnDeleteTeacher($owner: String!) {
+    onDeleteTeacher(owner: $owner) {
+      id
+      teacherName
+      teacherBio
+      nationality
+      teacherAvatar
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      introductionVideo {
+        id
+        title
+        url
+        description
+        teacherID
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courses {
+        items {
+          id
+          teacherID
+          title
+          description
+          thumbnail
+          level
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onCreateTeacherIntroductionVideo = /* GraphQL */ `
+  subscription OnCreateTeacherIntroductionVideo($owner: String!) {
+    onCreateTeacherIntroductionVideo(owner: $owner) {
+      id
+      title
+      url
+      description
+      teacherID
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onUpdateTeacherIntroductionVideo = /* GraphQL */ `
+  subscription OnUpdateTeacherIntroductionVideo($owner: String!) {
+    onUpdateTeacherIntroductionVideo(owner: $owner) {
+      id
+      title
+      url
+      description
+      teacherID
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onDeleteTeacherIntroductionVideo = /* GraphQL */ `
+  subscription OnDeleteTeacherIntroductionVideo($owner: String!) {
+    onDeleteTeacherIntroductionVideo(owner: $owner) {
+      id
+      title
+      url
+      description
+      teacherID
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onCreateComment = /* GraphQL */ `
+  subscription OnCreateComment($owner: String!) {
+    onCreateComment(owner: $owner) {
+      id
+      body
+      postID
+      post {
+        id
+        name
+        url
+        isAVideo
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      studentProfileID
+      postAuthor {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onUpdateComment = /* GraphQL */ `
+  subscription OnUpdateComment($owner: String!) {
+    onUpdateComment(owner: $owner) {
+      id
+      body
+      postID
+      post {
+        id
+        name
+        url
+        isAVideo
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      studentProfileID
+      postAuthor {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const onDeleteComment = /* GraphQL */ `
+  subscription OnDeleteComment($owner: String!) {
+    onDeleteComment(owner: $owner) {
+      id
+      body
+      postID
+      post {
+        id
+        name
+        url
+        isAVideo
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      studentProfileID
+      postAuthor {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
@@ -77,6 +1211,21 @@ export const onCreateStudentProfile = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -92,6 +1241,21 @@ export const onCreateStudentProfile = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      posts {
+        items {
+          id
+          name
+          url
+          isAVideo
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -142,6 +1306,21 @@ export const onUpdateStudentProfile = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -157,6 +1336,21 @@ export const onUpdateStudentProfile = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      posts {
+        items {
+          id
+          name
+          url
+          isAVideo
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -207,6 +1401,21 @@ export const onDeleteStudentProfile = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -222,6 +1431,21 @@ export const onDeleteStudentProfile = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      posts {
+        items {
+          id
+          name
+          url
+          isAVideo
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -262,6 +1486,10 @@ export const onCreateMessage = /* GraphQL */ `
           nextToken
           startedAt
         }
+        posts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -293,6 +1521,10 @@ export const onCreateMessage = /* GraphQL */ `
           owner
         }
         messages {
+          nextToken
+          startedAt
+        }
+        posts {
           nextToken
           startedAt
         }
@@ -336,6 +1568,10 @@ export const onUpdateMessage = /* GraphQL */ `
           nextToken
           startedAt
         }
+        posts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -367,6 +1603,10 @@ export const onUpdateMessage = /* GraphQL */ `
           owner
         }
         messages {
+          nextToken
+          startedAt
+        }
+        posts {
           nextToken
           startedAt
         }
@@ -410,6 +1650,10 @@ export const onDeleteMessage = /* GraphQL */ `
           nextToken
           startedAt
         }
+        posts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -441,6 +1685,10 @@ export const onDeleteMessage = /* GraphQL */ `
           owner
         }
         messages {
+          nextToken
+          startedAt
+        }
+        posts {
           nextToken
           startedAt
         }
@@ -487,144 +1735,6 @@ export const onDeletePicture = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-export const onCreateTeacher = /* GraphQL */ `
-  subscription OnCreateTeacher($owner: String!) {
-    onCreateTeacher(owner: $owner) {
-      id
-      teacherName
-      teacherBio
-      nationality
-      teacherAvatar
-      studentProfileID
-      student {
-        owner
-        name
-        bio
-        avatar
-        id
-        company {
-          nextToken
-          startedAt
-        }
-        teacher {
-          id
-          teacherName
-          teacherBio
-          nationality
-          teacherAvatar
-          studentProfileID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        messages {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const onUpdateTeacher = /* GraphQL */ `
-  subscription OnUpdateTeacher($owner: String!) {
-    onUpdateTeacher(owner: $owner) {
-      id
-      teacherName
-      teacherBio
-      nationality
-      teacherAvatar
-      studentProfileID
-      student {
-        owner
-        name
-        bio
-        avatar
-        id
-        company {
-          nextToken
-          startedAt
-        }
-        teacher {
-          id
-          teacherName
-          teacherBio
-          nationality
-          teacherAvatar
-          studentProfileID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        messages {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const onDeleteTeacher = /* GraphQL */ `
-  subscription OnDeleteTeacher($owner: String!) {
-    onDeleteTeacher(owner: $owner) {
-      id
-      teacherName
-      teacherBio
-      nationality
-      teacherAvatar
-      studentProfileID
-      student {
-        owner
-        name
-        bio
-        avatar
-        id
-        company {
-          nextToken
-          startedAt
-        }
-        teacher {
-          id
-          teacherName
-          teacherBio
-          nationality
-          teacherAvatar
-          studentProfileID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        messages {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      owner
     }
   }
 `;

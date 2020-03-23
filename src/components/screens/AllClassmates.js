@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Image, ImageBackground, ScrollView, Button } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Image, Button, ScrollView } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { PostFeed } from '../container'
 import { SearchBar, Card } from 'react-native-elements';

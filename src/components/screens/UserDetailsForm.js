@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Button, TextInput, Image } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Button, TextInput, Image, ActivityIndicator } from 'react-native'
 import { Auth } from 'aws-amplify'
-import { API, graphqlOperation } from 'aws-amplify'
+import { API, graphqlOperation, Storage } from 'aws-amplify'
 import PubSub from '@aws-amplify/pubsub';
+import options from '../../../s3-options';
 import awsmobile from '../../../aws-exports';
+import { RNS3 } from 'react-native-aws3'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+
+
 API.configure(awsmobile)  
 
 
@@ -54,33 +58,37 @@ class UserDetailsForm extends Component {
           quality: 1
         });
     this.setState({
-        avatar: result.uri
+        result: result,
+        image: result.uri
     })
-        console.log(result);
+    console.log("Image in state", this.state.image)
+       this.uploadFile()
     
         if (!result.cancelled) {
           this.setState({ image: result.uri });
         }
       }
     
+      uploadFile = async () => {
+        const name = new Date().getUTCMilliseconds();
+        const file = {
+            uri: this.state.image,
+            height: 100,
+            name: name + ".jpg",
+            type: 'image/jpg'
 
-    // getPermissionAsync = async () => {
-    //     if (Constants.platform.ios) {
-    //       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    //       if (status !== 'granted') {
-    //         alert('Sorry, we need camera roll permissions to make this work!');
-    //       }
-    //     }
-    //   }
-
-    // _pickImage = async () => {
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //       mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //       allowsEditing: true,
-    //       aspect: [4, 3],
-    //       quality: 1
-    //     });
-
+        }
+        //  const { result } = this.state
+          console.log("Image in uploadFilke", file)
+        RNS3.put(file, options).then( response=> {
+            console.log('response is!!!!', response.body.postResponse.location)
+            this.setState({
+                avatar: response.body.postResponse.location
+            })
+        } )
+    }
+      
+  
     updateName(name){
        
         this.setState({
@@ -143,12 +151,14 @@ updateUserDetails = async () => {
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       </View>
 
-
+{this.state.avatar? 
     <View style={{flex: 2 }}>
             <Button onPress={() => ( 
           this.updateUserDetails()
       )}  title='SUBMIT'/>      
-      </View>                     
+      </View>  : 
+       <ActivityIndicator size="large" color="#0000ff" />
+      }                   
 </View>
        
         )

@@ -1,8 +1,109 @@
-type Post @model {
+type Post @model 
+  @key(name: "postsByStudent", fields: ["studentProfileID"], queryField: "postsByStudent")
+  @auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]  ) {
   id: ID!
   name: String!
-  description: String
+  url: String
+  isAVideo: Boolean!
+  studentProfileID: ID!
+
+  student: StudentProfile @connection(fields: ["studentProfileID"])
+  comments: [Comment]! @connection(keyName: "commentsByPost", fields: ["id"])
 }, 
+
+
+type Course @model
+
+@key(name: "coursesByTeacher", fields: ["teacherID"], queryField: "coursesByTeacher")
+@auth(rules: [{ allow: owner, queries: null }])
+{
+   
+  id: ID!
+  teacher: Teacher! @connection(fields: ["teacherID"])
+  teacherID: ID!
+  title: String!
+  description: String
+  thumbnail: String
+  level: String
+  lessonVideos: [LessonVideo] @connection(keyName: "lessonsByCourse", fields: ["id"])
+  
+},
+
+type LessonVideo @model
+
+@key(name: "lessonsByCourse", fields: ["courseID"], queryField: "lessonsByCourse")
+@auth(rules: [{ allow: owner, queries: null }])
+{
+   
+  id: ID!
+  course: Course @connection(fields: ["courseID"])
+  courseID: ID!
+  title: String!
+  description: String
+  thumbnail: String
+  url: String
+  
+},
+
+
+type Teacher @model 
+@key(name: "teacherByStudentProfileId", fields: ["studentProfileID"], queryField: "teacherByStudentProfileId" )
+
+  @auth  (rules: [  { allow: owner, queries: null } ])
+  {
+  id: ID!
+  teacherName: String!
+  teacherBio: String
+  nationality: String
+  teacherAvatar: String
+  studentProfileID: ID!
+  student: StudentProfile @connection(fields: ["studentProfileID"])
+  introductionVideo: TeacherIntroductionVideo @connection
+  courses: [Course] @connection(keyName: "coursesByTeacher", fields: ["id"])
+  
+},
+
+type TeacherIntroductionVideo @model 
+  @key(name: "introVideosByTeacher", fields: ["teacherID"], queryField: "introVideosByTeacher")
+  @auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]  ) {
+  id: ID!
+  title: String
+  url: String
+  description: String
+  teacherID: ID!
+  teacher: Teacher @connection(fields: ["teacherID"])
+}, 
+
+
+
+type Comment @model
+  @key(name: "commentsByPost", fields: ["postID"], queryField: "commentsByPost")
+
+ @auth  (
+    rules: [
+       
+        { allow: owner, queries: null }
+    ]  ) {
+
+      id: ID!
+      body: String!
+      postID: ID!
+      post: Post @connection(fields: ["postID"])
+      studentProfileID: ID!
+      postAuthor: StudentProfile @connection(fields: ["studentProfileID"])
+
+    },
+
+
+
 
 type StudentProfile @model
 @key(name: "ByOwner", fields: ["owner"], queryField: "ByOwner") 
@@ -24,6 +125,8 @@ type StudentProfile @model
   
   teacher: Teacher @connection(fields: ["id"])
   messages: [Message]! @connection(keyName: "byStudent", fields: ["id"])
+  posts: [Post] @connection(keyName: "postsByStudent", fields: ["id"])
+ 
  
 }
 
@@ -46,9 +149,6 @@ type Message @model
   body: String!
   studentProfileID: ID!
   recipient: StudentProfile @connection(fields: ["studentProfileID"])
-
-  
-  
   
 }
 
@@ -67,23 +167,6 @@ type Picture @model   @auth  (
 }
 
 
-type Teacher @model 
-@key(name: "teacherByStudentProfileId", fields: ["studentProfileID"], queryField: "teacherByStudentProfileId" )
-  @auth  (
-    rules: [
-       
-        { allow: owner, queries: null }
-    ]
-)
-  {
-  id: ID!
-  teacherName: String!
-  teacherBio: String
-  nationality: String
-  teacherAvatar: String
-  studentProfileID: ID!
-  student: StudentProfile @connection(fields: ["studentProfileID"])
-}
 
 type Company @model 
 @key(name: "CompanyAdminOwner", fields: ["owner"], queryField: "CompanyAdminOwner") 
@@ -97,7 +180,6 @@ type Company @model
 
 {
   id: ID!
-
   companyName: String
   logo: String
   bio: String

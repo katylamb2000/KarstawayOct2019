@@ -9,10 +9,61 @@ export const createPost = /* GraphQL */ `
     createPost(input: $input, condition: $condition) {
       id
       name
-      description
+      url
+      isAVideo
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      comments {
+        items {
+          id
+          body
+          postID
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -24,10 +75,61 @@ export const updatePost = /* GraphQL */ `
     updatePost(input: $input, condition: $condition) {
       id
       name
-      description
+      url
+      isAVideo
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      comments {
+        items {
+          id
+          body
+          postID
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -39,10 +141,1087 @@ export const deletePost = /* GraphQL */ `
     deletePost(input: $input, condition: $condition) {
       id
       name
-      description
+      url
+      isAVideo
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      comments {
+        items {
+          id
+          body
+          postID
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
+      owner
+    }
+  }
+`;
+export const createCourse = /* GraphQL */ `
+  mutation CreateCourse(
+    $input: CreateCourseInput!
+    $condition: ModelCourseConditionInput
+  ) {
+    createCourse(input: $input, condition: $condition) {
+      id
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      teacherID
+      title
+      description
+      thumbnail
+      level
+      lessonVideos {
+        items {
+          id
+          courseID
+          title
+          description
+          thumbnail
+          url
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const updateCourse = /* GraphQL */ `
+  mutation UpdateCourse(
+    $input: UpdateCourseInput!
+    $condition: ModelCourseConditionInput
+  ) {
+    updateCourse(input: $input, condition: $condition) {
+      id
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      teacherID
+      title
+      description
+      thumbnail
+      level
+      lessonVideos {
+        items {
+          id
+          courseID
+          title
+          description
+          thumbnail
+          url
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteCourse = /* GraphQL */ `
+  mutation DeleteCourse(
+    $input: DeleteCourseInput!
+    $condition: ModelCourseConditionInput
+  ) {
+    deleteCourse(input: $input, condition: $condition) {
+      id
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      teacherID
+      title
+      description
+      thumbnail
+      level
+      lessonVideos {
+        items {
+          id
+          courseID
+          title
+          description
+          thumbnail
+          url
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const createLessonVideo = /* GraphQL */ `
+  mutation CreateLessonVideo(
+    $input: CreateLessonVideoInput!
+    $condition: ModelLessonVideoConditionInput
+  ) {
+    createLessonVideo(input: $input, condition: $condition) {
+      id
+      course {
+        id
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        teacherID
+        title
+        description
+        thumbnail
+        level
+        lessonVideos {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courseID
+      title
+      description
+      thumbnail
+      url
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const updateLessonVideo = /* GraphQL */ `
+  mutation UpdateLessonVideo(
+    $input: UpdateLessonVideoInput!
+    $condition: ModelLessonVideoConditionInput
+  ) {
+    updateLessonVideo(input: $input, condition: $condition) {
+      id
+      course {
+        id
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        teacherID
+        title
+        description
+        thumbnail
+        level
+        lessonVideos {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courseID
+      title
+      description
+      thumbnail
+      url
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteLessonVideo = /* GraphQL */ `
+  mutation DeleteLessonVideo(
+    $input: DeleteLessonVideoInput!
+    $condition: ModelLessonVideoConditionInput
+  ) {
+    deleteLessonVideo(input: $input, condition: $condition) {
+      id
+      course {
+        id
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        teacherID
+        title
+        description
+        thumbnail
+        level
+        lessonVideos {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courseID
+      title
+      description
+      thumbnail
+      url
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const createTeacher = /* GraphQL */ `
+  mutation CreateTeacher(
+    $input: CreateTeacherInput!
+    $condition: ModelTeacherConditionInput
+  ) {
+    createTeacher(input: $input, condition: $condition) {
+      id
+      teacherName
+      teacherBio
+      nationality
+      teacherAvatar
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      introductionVideo {
+        id
+        title
+        url
+        description
+        teacherID
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courses {
+        items {
+          id
+          teacherID
+          title
+          description
+          thumbnail
+          level
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const updateTeacher = /* GraphQL */ `
+  mutation UpdateTeacher(
+    $input: UpdateTeacherInput!
+    $condition: ModelTeacherConditionInput
+  ) {
+    updateTeacher(input: $input, condition: $condition) {
+      id
+      teacherName
+      teacherBio
+      nationality
+      teacherAvatar
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      introductionVideo {
+        id
+        title
+        url
+        description
+        teacherID
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courses {
+        items {
+          id
+          teacherID
+          title
+          description
+          thumbnail
+          level
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteTeacher = /* GraphQL */ `
+  mutation DeleteTeacher(
+    $input: DeleteTeacherInput!
+    $condition: ModelTeacherConditionInput
+  ) {
+    deleteTeacher(input: $input, condition: $condition) {
+      id
+      teacherName
+      teacherBio
+      nationality
+      teacherAvatar
+      studentProfileID
+      student {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      introductionVideo {
+        id
+        title
+        url
+        description
+        teacherID
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      courses {
+        items {
+          id
+          teacherID
+          title
+          description
+          thumbnail
+          level
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const createTeacherIntroductionVideo = /* GraphQL */ `
+  mutation CreateTeacherIntroductionVideo(
+    $input: CreateTeacherIntroductionVideoInput!
+    $condition: ModelTeacherIntroductionVideoConditionInput
+  ) {
+    createTeacherIntroductionVideo(input: $input, condition: $condition) {
+      id
+      title
+      url
+      description
+      teacherID
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const updateTeacherIntroductionVideo = /* GraphQL */ `
+  mutation UpdateTeacherIntroductionVideo(
+    $input: UpdateTeacherIntroductionVideoInput!
+    $condition: ModelTeacherIntroductionVideoConditionInput
+  ) {
+    updateTeacherIntroductionVideo(input: $input, condition: $condition) {
+      id
+      title
+      url
+      description
+      teacherID
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteTeacherIntroductionVideo = /* GraphQL */ `
+  mutation DeleteTeacherIntroductionVideo(
+    $input: DeleteTeacherIntroductionVideoInput!
+    $condition: ModelTeacherIntroductionVideoConditionInput
+  ) {
+    deleteTeacherIntroductionVideo(input: $input, condition: $condition) {
+      id
+      title
+      url
+      description
+      teacherID
+      teacher {
+        id
+        teacherName
+        teacherBio
+        nationality
+        teacherAvatar
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const createComment = /* GraphQL */ `
+  mutation CreateComment(
+    $input: CreateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    createComment(input: $input, condition: $condition) {
+      id
+      body
+      postID
+      post {
+        id
+        name
+        url
+        isAVideo
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      studentProfileID
+      postAuthor {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const updateComment = /* GraphQL */ `
+  mutation UpdateComment(
+    $input: UpdateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    updateComment(input: $input, condition: $condition) {
+      id
+      body
+      postID
+      post {
+        id
+        name
+        url
+        isAVideo
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      studentProfileID
+      postAuthor {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteComment = /* GraphQL */ `
+  mutation DeleteComment(
+    $input: DeleteCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    deleteComment(input: $input, condition: $condition) {
+      id
+      body
+      postID
+      post {
+        id
+        name
+        url
+        isAVideo
+        studentProfileID
+        student {
+          owner
+          name
+          bio
+          avatar
+          id
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        comments {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      studentProfileID
+      postAuthor {
+        owner
+        name
+        bio
+        avatar
+        id
+        company {
+          nextToken
+          startedAt
+        }
+        teacher {
+          id
+          teacherName
+          teacherBio
+          nationality
+          teacherAvatar
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        messages {
+          nextToken
+          startedAt
+        }
+        posts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
     }
   }
 `;
@@ -89,6 +1268,21 @@ export const createStudentProfile = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -104,6 +1298,21 @@ export const createStudentProfile = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      posts {
+        items {
+          id
+          name
+          url
+          isAVideo
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -157,6 +1366,21 @@ export const updateStudentProfile = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -172,6 +1396,21 @@ export const updateStudentProfile = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      posts {
+        items {
+          id
+          name
+          url
+          isAVideo
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -225,6 +1464,21 @@ export const deleteStudentProfile = /* GraphQL */ `
           _deleted
           _lastChangedAt
         }
+        introductionVideo {
+          id
+          title
+          url
+          description
+          teacherID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        courses {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -240,6 +1494,21 @@ export const deleteStudentProfile = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      posts {
+        items {
+          id
+          name
+          url
+          isAVideo
+          studentProfileID
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -283,6 +1552,10 @@ export const createMessage = /* GraphQL */ `
           nextToken
           startedAt
         }
+        posts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -314,6 +1587,10 @@ export const createMessage = /* GraphQL */ `
           owner
         }
         messages {
+          nextToken
+          startedAt
+        }
+        posts {
           nextToken
           startedAt
         }
@@ -360,6 +1637,10 @@ export const updateMessage = /* GraphQL */ `
           nextToken
           startedAt
         }
+        posts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -391,6 +1672,10 @@ export const updateMessage = /* GraphQL */ `
           owner
         }
         messages {
+          nextToken
+          startedAt
+        }
+        posts {
           nextToken
           startedAt
         }
@@ -437,6 +1722,10 @@ export const deleteMessage = /* GraphQL */ `
           nextToken
           startedAt
         }
+        posts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -468,6 +1757,10 @@ export const deleteMessage = /* GraphQL */ `
           owner
         }
         messages {
+          nextToken
+          startedAt
+        }
+        posts {
           nextToken
           startedAt
         }
@@ -523,153 +1816,6 @@ export const deletePicture = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-export const createTeacher = /* GraphQL */ `
-  mutation CreateTeacher(
-    $input: CreateTeacherInput!
-    $condition: ModelTeacherConditionInput
-  ) {
-    createTeacher(input: $input, condition: $condition) {
-      id
-      teacherName
-      teacherBio
-      nationality
-      teacherAvatar
-      studentProfileID
-      student {
-        owner
-        name
-        bio
-        avatar
-        id
-        company {
-          nextToken
-          startedAt
-        }
-        teacher {
-          id
-          teacherName
-          teacherBio
-          nationality
-          teacherAvatar
-          studentProfileID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        messages {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const updateTeacher = /* GraphQL */ `
-  mutation UpdateTeacher(
-    $input: UpdateTeacherInput!
-    $condition: ModelTeacherConditionInput
-  ) {
-    updateTeacher(input: $input, condition: $condition) {
-      id
-      teacherName
-      teacherBio
-      nationality
-      teacherAvatar
-      studentProfileID
-      student {
-        owner
-        name
-        bio
-        avatar
-        id
-        company {
-          nextToken
-          startedAt
-        }
-        teacher {
-          id
-          teacherName
-          teacherBio
-          nationality
-          teacherAvatar
-          studentProfileID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        messages {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const deleteTeacher = /* GraphQL */ `
-  mutation DeleteTeacher(
-    $input: DeleteTeacherInput!
-    $condition: ModelTeacherConditionInput
-  ) {
-    deleteTeacher(input: $input, condition: $condition) {
-      id
-      teacherName
-      teacherBio
-      nationality
-      teacherAvatar
-      studentProfileID
-      student {
-        owner
-        name
-        bio
-        avatar
-        id
-        company {
-          nextToken
-          startedAt
-        }
-        teacher {
-          id
-          teacherName
-          teacherBio
-          nationality
-          teacherAvatar
-          studentProfileID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        messages {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      owner
     }
   }
 `;

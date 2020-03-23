@@ -10,6 +10,7 @@ import Video from './Video'
 import About from './About'
 import Discussion from './Discussion'
 import Activities from './Activities'
+import EditCourseForm from './EditCourseForm'
 import AllClassmates from './AllClassmates'
 import SelectedCamps from './SelectedCamps'
 import User from './User'
@@ -26,7 +27,10 @@ import AddAProgramForm from './AddAProgramForm'
 import Discover from './Discover'
 import NewMessage from './NewMessage'
 import NewTeacherForm from './NewTeacherForm'
+import Comment from './Comment'
+import NewCourseForm from './NewCourseForm'
 export {
+    NewCourseForm,
     MainFeed,
     Login,
     Camera,
@@ -54,6 +58,8 @@ export {
     Company,
     AddAProgramForm,
     MyTeachingPage,
-    NewTeacherForm
+    NewTeacherForm,
+    Comment,
+    EditCourseForm
 
 }
