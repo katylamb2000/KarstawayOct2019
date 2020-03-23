@@ -5,8 +5,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from 'moment'
 import { Video } from 'expo-av'
 import VideoPlayer from 'expo-video-player'
-import { Auth } from 'aws-amplify';
-
+import { Auth } from 'aws-amplify'
+import {connect} from 'react-redux'
+import { introVideosByTeacher } from "../../graphql/queries"
+import { API, graphqlOperation } from 'aws-amplify'
+import awsmobile from '../../../aws-exports';
+API.configure(awsmobile) 
 
 
 class Profile extends Component {
@@ -19,6 +23,27 @@ class Profile extends Component {
                
         }
     }
+
+    componentWillMount(){
+     
+
+      this.setState({
+          teacher: this.props.teacher.teacherSelectedReducer
+      })
+      this.getVid()
+    }
+
+     
+getVid = async() => {
+  console.log("Looking for teacher id", this.state, this.props.teacher.teacherSelectedReducer.id)
+        const id = this.props.teacher.teacherSelectedReducer.id
+        const introVideo = await API.graphql(graphqlOperation(introVideosByTeacher, {teacherID: id}  ))
+        introVideo.data.introVideosByTeacher.items.map(IV => {
+          this.setState({introVideo: IV.url })
+        })
+        
+    console.log("INTRO VIDEO!!!!", this.state.introVideo)
+     }
  
     openBookingForm(){
         this.setState({
@@ -43,26 +68,24 @@ class Profile extends Component {
       };
     
     render(){
-        // console.log(this.props.navigation.state.params.photo)
-        console.log(this.props)
+        console.log("props on the teacher profile page.", this.state.introVideo)
         return (
             <View style={{flex: 1}}>
-
+{this.state.introVideo ?
 <VideoPlayer
   videoProps={{
     shouldPlay: false,
     
     resizeMode: Video.RESIZE_MODE_COVER,
     source: {
-      uri: 'https://londonkarstway.s3.eu-west-2.amazonaws.com/Videos/Raising+a+Reader+_+How+to+Read+to+Children+_+AD.mp4',
+      uri: this.state.introVideo,
     },
   }}
-//   inFullscreen={true}
-  width={400}
-    height={200}
+  width={410}
+  height={400}
 />
-
-<VideoPlayer
+: null }
+{/* <VideoPlayer
   videoProps={{
     shouldPlay: false,
     
@@ -70,12 +93,12 @@ class Profile extends Component {
     source: {
       uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
-  }}
+  }} */}
   
-  width={400}
+  {/* width={400}
   height={200}
  
-/>
+/> */}
 <ScrollView>
 
 <TouchableOpacity>
@@ -140,4 +163,14 @@ class Profile extends Component {
     }
 } 
 
-export default Profile
+const mapStateToProps = state => {
+  return {
+      teacher: state
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return{}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, Avatar} from 'react-native'
 import { Video } from 'expo-av'
 import VideoPlayer from 'expo-video-player'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { withNavigation } from 'react-navigation'
-
+import { createComment } from '../../graphql/mutations'
+import Comment from '../screens/Comment'
+import { API, graphqlOperation } from 'aws-amplify'
+import awsmobile from '../../../aws-exports';
+API.configure(awsmobile)   
 import actions from "../../redux/actions"
 import { connect } from "react-redux";
+import { TextInput } from 'react-native-gesture-handler';
 
 
 // import Profile from '../screens/Profile'
@@ -19,13 +24,35 @@ class Post extends Component {
         this.state = {
             name: "ORIGINAL NAME",
             openClassroom: false,
-            postOwner: ''
+            postOwner: '',
+            openNew: false,
+            newComment: '',
+            goalAdded: false
       
    
         }
 }
 
 
+
+componentWillMount(){
+  this.setState({
+    isAVideo: this.props.post.isAVideo
+  })
+}
+
+
+onChangeText(text){
+  this.setState({
+    newComment: text
+  })
+}
+
+openNewCommentForm(){
+  this.setState({
+    openNew: !this.state.openNew
+  })
+}
 
 viewPostOwner(){
   const owner = this.state.name
@@ -35,128 +62,161 @@ viewPostOwner(){
   console.log("right whats next?", this.state.postOwner)
 }
 
+goToStudentPage(classmate){
+  console.log("postID", this.props.post.id)
+  this.props.classmateSelected(classmate)
+  this.props.navigation.navigate('ClassmatesProfile')
+}
 
+addGoals(){
+  console.log('GOAL ADDED', this.props.post.id)
+  this.setState({
+    goalAdded: !this.state.goalAdded
+  })
+}
+
+updateNewComment(text){
+  this.setState({
+    newComment: text
+  })
+}
+
+  submitComment = async () => {
+    const { newComment } = this.state
+    const studentProfileID = this.props.studentProfileID
+    const postID = this.props.post.id
+    try {
+       const comment = await API.graphql(graphqlOperation(createComment, { input: { body: newComment, postID: postID, studentProfileID: studentProfileID }}))
+        console.log('new comment!!!!', comment)
+     
+     }
+     catch (err) {
+      console.log('error addign up post: ', err)
+    }
+  
+  console.log(newComment, "SPID", studentProfileID, "PID", postID )
+  this.setState({
+    newComment: "",
+    openNew: false
+  })
+}
   
 
 
     render(){
+      console.log("looking for is a video", this.state.comments)
+     
         return(
       
-     
-               
-    
-<View style={{flex: 1}}>
-    {this.state.openClassroom? 
-    <Classroom /> : null}
-                <View style={styles.userBar}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                     <TouchableOpacity onPress={() => this.viewPostOwner() }>
-            
-                    <Image 
-                    style={{width: 30, height: 30, borderRadius: 20, paddingLeft: 15}}
-                    source={{uri: 'https://miro.medium.com/fit/c/256/256/0*U3VpFCH5wVOO56gg'}}/>
-                     <Text style={{paddingLeft: 10}}>{this.state.name} </Text> 
-                     </TouchableOpacity>
 
-                    </View> 
-                    <View style={{alignItems: 'center'}}> 
-                    <Text style={{fontSize: 30, paddingRight: 15}}> ...</Text>
-                    </View>
-                </View> 
+this.state.isAVideo ? 
+<View>
+<TouchableOpacity onPress={() => this.goToStudentPage(this.props.post.student)}>
+{/* <View style={{flex: 1}}>  */}
 
+<View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingVertical: 15 }}> 
 
-                <VideoPlayer
+<Image style={{ width: 30, height: 30, borderRadius: 15, paddingLeft: 20}} source={{uri: this.props.post.student.avatar}} />
+<Text> {this.props.post.student.name} </Text>
+</View>
+</TouchableOpacity>
+<VideoPlayer
   videoProps={{
     shouldPlay: false,
     
     resizeMode: Video.RESIZE_MODE_CONTAIN,
     source: {
-      uri: 'https://londonkarstway.s3.eu-west-2.amazonaws.com/Videos/KatyIntro.MOV',
+      uri: this.props.post.url
     },
   }}
      inFullscreen={true}
 
-/> 
+/>  
+
+
+<View style={{width: 100 + '%', height: 40, backgroundColor: '#c6bae0', flexDirection: 'row', alignItems: 'center'}}> 
+  <TouchableOpacity  onPress={() => this.addGoals()}>
+  {this.state.goalAdded? 
+    <Icon name="bullseye" size={25} style={{paddingLeft: 10, paddingTop: 5, color: 'red'}}  /> :
+    <Icon name="bullseye" size={20} style={{paddingLeft: 10, paddingTop: 5}}  /> }
+  </TouchableOpacity> 
+      {this.state.goalAdded? 
+      <Text> Congratulations! You have a new goal! </Text> 
+    : null }
+  </View>
   
   
-
-
-
-
-
-
-<View style={styles.iconBar}>
-<TouchableOpacity> 
-<Icon name="heart" size={20} style={{paddingLeft: 10, paddingTop: 5}} color='red' />
-</TouchableOpacity>
-
-<TouchableOpacity onPress={() => this.props.navigation.navigate('teacherPageTabs')}> 
-<Icon name="comment" size={30} style={{paddingLeft: 10, paddingTop: 5}} color='black' />
-</TouchableOpacity>
-
-<TouchableOpacity> 
-<Icon name="television" size={20} style={{paddingLeft: 10, paddingTop: 5}} color='red' />
-</TouchableOpacity>
-
-{/* <TouchableOpacity> 
-<Icon name="" size={20} style={{paddingLeft: 10, paddingTop: 5}} color='red' />
-</TouchableOpacity> */}
-                    {/* <Image 
-                    style={{height: 20 , width: 20}}
-                    source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/44/71/heart-icon-line-outline-love-symbol-vector-21084471.jpg'}} />  */}
-            </View>
-            <View style={{alignItems: 'center'}}> 
-                    <Text style={{fontSize: 12, paddingRight: 15}}> Teacher Bobby will teach you how to go hiking. </Text>
-                    </View>
-
-<View style={styles.userBar}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                   
-                    <Image 
-                    style={{width: 30, height: 30, borderRadius: 20, paddingLeft: 15}}
-                    source={{uri: 'https://miro.medium.com/fit/c/256/256/0*U3VpFCH5wVOO56gg'}}/>
-                     <Text style={{paddingLeft: 10}}>Teacher Katy </Text> 
-                     
-                    </View> 
-                    <View style={{alignItems: 'center'}}> 
-                    <Text style={{fontSize: 30, paddingRight: 15}}> ...</Text>
-                    </View>
-                </View>
-
-           
-                <VideoPlayer
-  videoProps={{
-    shouldPlay: false,
+  {this.state.comments? this.state.comments.map(comment => {
+    return(
+      <Comment comment={comment} />
+    )
     
-    resizeMode: Video.RESIZE_MODE_COVER,
-    source: {
-      uri: 'https://londonkarstway.s3.eu-west-2.amazonaws.com/Videos/Raising+a+Reader+_+How+to+Read+to+Children+_+AD.mp4',
-    },
-  }}
-//   inFullscreen={true}
-  width={400}
-    height={200}
-/>
-     
+  })
+: null
+}
+  
+  </View>
 
-                <TouchableOpacity onPress={() => {this.props.navigation.navigate('teacherPageTabs')}}>
+:
+
+
+
+
+                <View>
+                  
+                <TouchableOpacity onPress={() => this.goToStudentPage(this.props.post.student)}>
+                {/* <View style={{flex: 1}}>  */}
              
+             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingVertical: 15 }}> 
 
-                <Image            
-                style={{height: 220, width: 100 + '%'}}
-                source={{uri: 'https://scontent-dfw5-1.xx.fbcdn.net/v/t1.0-9/69915495_10100753717927269_8505049837614399488_n.jpg?_nc_cat=103&_nc_oc=AQmqCSJCl-vill80h648uiOCH4fQdY5D69waOBmBAfx5ZHCeQPMtlsI5k4S28-SqRRI&_nc_ht=scontent-dfw5-1.xx&oh=cfc67e6621da9108e0467f39bc1ee4bf&oe=5DF8F3D9'}}
-                /> 
-             
-  </TouchableOpacity >
+      <Image style={{ width: 30, height: 30, borderRadius: 15, paddingLeft: 20}} source={{uri: this.props.post.student.avatar}} />
+             <Text> {this.props.post.student.name} </Text>
+             </View>
+             </TouchableOpacity>
 
-  <View style={styles.iconBar}>
-                    <Image 
-                    style={{height: 20 , width: 20}}
-                    source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/44/71/heart-icon-line-outline-love-symbol-vector-21084471.jpg'}} /> 
-            </View>
-            <View style={{paddingLeft: 10 }}> 
-                    <Text style={{fontSize: 12, paddingRight: 15}}> Learn about everything you will need to start your day on this trip. </Text>
-                    </View>
+<TouchableOpacity onPress={() => console.log(this.props.post.id)}>
+   <View> 
+      <Image style={{height: 220, width: 100 + '%', justifyContent: 'center'}} source={{uri: this.props.post.url}}/>   
+    </View>
+</TouchableOpacity>
+
+  <View style={{width: 100 + '%', height: 40, backgroundColor: '#c6bae0', flexDirection: 'row', alignItems: 'center'}}> 
+  <TouchableOpacity  onPress={() => this.addGoals()}>
+  {this.state.goalAdded? 
+    <Icon name="bullseye" size={25} style={{paddingLeft: 10, paddingTop: 5, color: 'red'}}  /> :
+    <Icon name="bullseye" size={20} style={{paddingLeft: 10, paddingTop: 5}}  /> }
+  </TouchableOpacity> 
+      {this.state.goalAdded? 
+      <Text> Congratulations! You have a new goal! </Text> 
+    : null }
+  </View>
+{/*   
+  {this.props.post.comments.items.map(comment => {
+    <Comment comment={comment} />
+ })
+ }  */}
+
+
+
+              <TouchableOpacity onPress={() => this.openNewCommentForm()}> 
+                <View style={{paddingTop: 10, paddingLeft: 20}}> 
+                  <Text> 
+                    Add a Comment
+                  </Text>
+                  {this.state.openNew ? 
+                  <View style={{   flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#fff',}}> 
+                   <TextInput autoCorrect={true} value={this.state.newComment} onChangeText={(text) => this.updateNewComment(text)} placeholder="Comment" style={{width: 360, height: 50, backgroundColor:  'white', borderBottomColor: '#311B92', borderBottomWidth: 3 }} />
+                   <TouchableOpacity onPress={() => this.submitComment()}>
+                   <Icon name="paper-plane" size={25} style={{ paddingTop: 5, color: '#311B92'}}  />
+                   </TouchableOpacity>
+                   </View>
+                  : null}
+                </View>
+              </TouchableOpacity>
                 </View>
       
         )
@@ -200,8 +260,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    ownerReceived: owner => dispatch(actions.ownerReceived(owner))
-    
+    // ownerReceived: owner => dispatch(actions.ownerReceived(owner))
+    classmateSelected: classmate => dispatch(actions.classmateSelected(classmate))
+
   };
 
 };

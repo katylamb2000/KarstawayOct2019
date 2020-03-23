@@ -10,17 +10,21 @@ import { connect } from 'react-redux'
 import { SearchBar, Badge } from 'react-native-elements';
 import  Messages  from './Messages'
 import { createProfilePicture } from '../../graphql/mutations'
-import { createTeacher } from '../../graphql/mutations'
+import { createPost } from '../../graphql/mutations'
+import { createVideo } from '../../graphql/mutations'
 import { byStudent } from '../../graphql/queries'
 import { byOwner } from '../../graphql/queries'
-// import  {API,  graphqlOperation } from '@ws-amplify/api'
+import options from '../../../s3-options';
+import videoOptions from '../../../s3-videoOptions'
+
+import { RNS3 } from 'react-native-aws3'
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 import { API, graphqlOperation } from 'aws-amplify'
 import awsmobile from '../../../aws-exports';
 import NewCompanyForm from './NewCompanyForm';
 API.configure(awsmobile)      
-
-
-
 
 
 class UserProfile extends Component {
@@ -32,7 +36,8 @@ class UserProfile extends Component {
             messages: [],
             sentBY: "",
             studentProfileID: null,
-            reply: false
+            reply: false,
+            isAVideo: false
         }
     }
 
@@ -42,17 +47,8 @@ class UserProfile extends Component {
         })
     }
 
-    // reply(){
-    //     this.setState({
-    //         reply: !this.state.reply
-    //     })
-    // }
-
-
-    
-
     showMessagesNumber = async() => {
-        const studentID = this.state.student.id
+        const studentID = this.state.id
 
         console.log("studentID", studentID)
         messages = await API.graphql(graphqlOperation(byStudent, {studentProfileID: studentID}))
@@ -61,80 +57,12 @@ class UserProfile extends Component {
         })
         console.log("How many messages?", this.state.messages.length)
       }
-        // {this.state.showMessages? this.props.navigation.navigate("Messages") : null
-    
-
-    // getCompany = async() =>{
-    //     const owner = this.props.user.account.user
-        
-    //     company = await API.graphql(graphqlOperation(companyAdminOwner , {owner: owner}, items))
-    //     console.log("WHAT IS COMPNAY???", company)
-    //     {company.data.companyAdminOwner.items.map(item => {
-            // this.setState({
-            //     // student: student.data.ByOwner.items
-            //     companyName: item.companyName,
-            //     logo: item.logo,
-            //     bio: item.bio
-              
-                
-            // })
-    //         console.log(item)
-    //     })}
-    // // }
-
-    // byMessageOwner = async() => {
-    //     const sentBy = this.state.sentBy
-    //     messages = await API.graphql(graphqlOperation(byMessageOwner, {sentBy: sentBy}) )
-    //     console.log(messages)
-    // }
-
-    // byStudent = async() => {
-    //     const student = this.
-    // }
-
-
-
-    // getProfile = async() =>{
-        // const owner = this.props.user.account.user
-        // console.log("WHAT IS OWNER, userprofile getprofile method???", this.props)
-        
-    //     student = await API.graphql(graphqlOperation(byOwner, {owner: owner}) )
-
-    // console.log('returned student profile from userprofile!', student.data.ByOwner.items)
-    
-        
-    // studentProfileReceived(student.data.ByOwner.items)
-    // {student.data.ByOwner.items.map(item => {
-      
-      // studentProfileReceived(student.data.ByOwner.items)
-//     {student.data.ByOwner.map(student => {      
-     
-//         this.setState({
-// student: student
-
-            // studentID: item.id,
-            // name: item.name,
-            // bio: item.bio,
-            // avatar: item.avatar
-
-            
-        // }
-        // )
-    //     this.showMessagesNumber()
-    // console.log("WHAT IS THIS HERE", this.state.student)
-       
-    // })}}
-   
-
 
     addACompany() {
         this.setState({
             addACompany: true
         })
     }
-       
-
-
 
     updateText(bio){
        
@@ -157,23 +85,33 @@ class UserProfile extends Component {
         })
     }
 
-    // componentWillMount(){
-    //        {this.props.studentProfileReducer.student.map(student => {
-    //     this.setState({
-    //         student: student
-    //     }) 
-    //   })
-    //   {this.props.student.studentProfileReducer.student.map(student => {
-    //     this.setState({
-    //         student: student
-    //     }) 
-    //   })
-    // console.log("tryng to get student from user  details. ", this.props)
-    // }}
-       
-      
-        // console.log("NAME!!!!!!!", this.state.student)      
-    // }
+    submit = async () => {
+ 
+        const  { name, locationFromAWS, id } = this.state
+     
+        const post = await API.graphql(graphqlOperation(createPost, { input: {name: name, url: locationFromAWS, studentProfileID: id, isAVideo: false}  }))
+           console.log('details to be updated!', post)
+        // this.props.userReceived(user)
+        // this.setState({post: [student.data.createStudentProfile]})
+        // this.props.studentProfileRecieved(this.state.student)
+   
+        // console.log("THIS IS STUDENT IN USER DETAILS>", student)
+    // this.props.navigation.navigate('main')
+
+
+    
+            console.log('error:', err)
+
+    }
+
+    submitVideo = async () => {
+ 
+        const  { name, videoLocationFromAWS, id  } = this.state
+     
+        const video = await API.graphql(graphqlOperation(createPost, { input: {url: videoLocationFromAWS, studentProfileID: id, isAVideo: true, name: name }  }))
+           console.log('details to be updated!', video)
+    }
+  
 
     componentWillMount(){
         console.log("CPM!!!!!!!!", this.props.student)
@@ -181,29 +119,107 @@ class UserProfile extends Component {
             this.setState({
                 name: s.name,
                 avatar: s.avatar,
-                bio: s.bio
+                bio: s.bio,
+                id: s.id
             })
         })
+        
+        
             
     }
 
-//  componentWillMount(){
-//         const student = this.props.student
-//              this.setState({
-//                  Blob: student
-//              })
-        //      this.state.Blob.map(student => {
-        //          console.log("grrrr argh!", student)
-        //      })
-        //     })
-            // this.setState({
-            //     // student: this.props.student.studentProfileReducer.student,
-            //     name: student.name
-            // })
-        
-       
-    //     console.log("is ComponentDiDMOUNT RENDERING?????", this.props.student, "STATE!!!!", this.state.Blob)
-    // }
+    componentDidMount() {
+        this.showMessagesNumber();
+        this.getPermissionAsync();
+        console.log('hi');
+      }
+    
+      getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      }
+
+      _pickVideo = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1
+        });
+    this.setState({
+        result: result,
+        image: result.uri
+    })
+    console.log("Image in state", this.state.description)
+       this.uploadVideo()
+    
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+      }
+    
+      _pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1
+        });
+    this.setState({
+        result: result,
+        image: result.uri
+    })
+    console.log("Image in state", this.state.description)
+       this.uploadFile()
+    
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+      }
+    
+      uploadFile = async () => {
+        const name = new Date().getUTCMilliseconds();
+        const file = {
+            uri: this.state.image,
+            height: 100,
+            name: name + ".jpg",
+            type: 'image/jpg'
+
+        }
+        //  const { result } = this.state
+          console.log("Image in uploadFilke", file)
+        RNS3.put(file, options).then( response=> {
+            console.log('response is!!!!', response.body.postResponse.location)
+            this.setState({
+                locationFromAWS: response.body.postResponse.location
+            })
+        } )
+    }
+
+    uploadVideo = async () => {
+        const name = new Date().getUTCMilliseconds();
+        const file = {
+            uri: this.state.image,
+            height: 100,
+            name: name + 'video.mp4',
+            // name: name + 'video.mov',
+            type: 'video/mp4'
+        }
+        //  const { result } = this.state
+        console.log("Video in uploadFilke", file)
+        RNS3.put(file, videoOptions).then( response=> {
+            console.log('response is!!!!', response.body.postResponse.location)
+            this.setState({
+                videoLocationFromAWS: response.body.postResponse.location
+            })
+        } )
+    }
+
+
     render(){
 console.log(this.state.student)
     
@@ -228,10 +244,6 @@ console.log(this.state.student)
    <View style={{flex: 3,height: 100,  justifyContent: 'center', alignItems: 'center '}}>
  
 
-
-
-    
-   
  
         <Image style={{ width: 80, height: 80, borderRadius: 40}} source={{uri: this.state.avatar}} />  
   
@@ -254,8 +266,8 @@ console.log(this.state.student)
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flexDirection: 'column', flex: 1}}> 
-                <Text>Classmates </Text> 
+                <View style={{ flexDirection: 'column', flex: 1 }}> 
+                <Text>Goals </Text> 
                     <Text>18 </Text> 
                   
                 </View>
@@ -265,7 +277,35 @@ console.log(this.state.student)
                     <Text>77 </Text> 
                 </View>
 
+             
+
             </View>
+
+            <View style={{flexDirection: 'column', flex: 1}}> 
+                    <TouchableOpacity onPress={this._pickImage}>
+                        <Text> Add a photo </Text>
+                    </TouchableOpacity>
+            </View>
+
+            <View> 
+                    {this.state.videoLocationFromAWS? 
+                    <TouchableOpacity onPress={() => this.submitVideo()}>
+                        <Text> Submit Video </Text>
+                    </TouchableOpacity> : null }
+                </View>
+
+            <View style={{flexDirection: 'column', flex: 1}}> 
+                    <TouchableOpacity onPress={this._pickVideo}>
+                        <Text> Add a video </Text>
+                    </TouchableOpacity>
+            </View>
+
+            <View> 
+                    {this.state.locationFromAWS? 
+                    <TouchableOpacity onPress={() => this.submit()}>
+                        <Text> Submit Picture </Text>
+                    </TouchableOpacity> : null }
+                </View>
         </View> 
     </View>
   
@@ -276,7 +316,7 @@ console.log(this.state.student)
   
     <ScrollView> 
 
-    {/* {this.state.showMessages? this.state.messages.map(message => {
+    {this.state.showMessages? this.state.messages.map(message => {
 return(
     <Messages message={message} sender={this.state.student}/> 
     )
@@ -285,7 +325,7 @@ return(
 
 
 
-} */}
+}
 </ScrollView>
 </View>
    

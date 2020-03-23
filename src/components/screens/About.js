@@ -6,6 +6,7 @@ import moment from 'moment'
 import { Video } from 'expo-av'
 import VideoPlayer from 'expo-video-player'
 import {connect} from 'react-redux'
+import { getTeacherIntroductionVideo } from '../../graphql/queries';
 
 
 class About extends Component {
@@ -24,6 +25,7 @@ class About extends Component {
        teacher: this.props.teacher.teacherSelectedReducer
    })}
 
+ 
 
  
     openBookingForm(){
@@ -50,24 +52,24 @@ class About extends Component {
     
     render(){
         // console.log(this.props.navigation.state.params.photo)
-        console.log("Props on about page", this.props.teacher.teacherSelectedReducer.student.avatar, "STATE ON ABOUT PAGE", this.state) 
+        console.log("Props on about page", this.props.teacher, "STATE ON ABOUT PAGE", this.state.teacher) 
         return (
         <ScrollView>
            <View style={{flex: 1}}>
         
          <View style={{ alignContent: 'center' }}> 
-         <Image source={{uri: this.state.teacher.student.avatar }} style={{height: 300, width: 100 + '%'}} ></Image>
+         <Image source={{uri: this.state.teacher.teacherAvatar }} style={{height: 300, width: 100 + '%'}} ></Image>
 
      
          {/* <Image source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8l5J4VGGtVN3QaLP6xvaU93w5_IOJA91Zy3fiTvWgCfgZPkQJ&s' }} style={{height: 300, width: 100 + '%'}} ></Image> */}
          <Text style={{fontSize: 34,  color: 'black', marginLeft: 15}}> 
-         {this.state.teacher.name}
+         {this.state.teacher.teacherName}
   {/* {this.props.postOwner.postOwner.owner} */}
          
          </Text>
         </View>
         <View style={{ justifyContent: 'center'}}>
-         <Text style={{marginLeft: 15, marginRight: 15}} > {this.state.teacher.student.bio} </Text>        
+         <Text style={{marginLeft: 15, marginRight: 15}} > {this.state.teacher.teacherBio} </Text>        
         </View>
     
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>

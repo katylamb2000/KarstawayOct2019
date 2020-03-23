@@ -32,7 +32,7 @@ Amplify.configure(awsmobile)
   
 
 import UserProfile from './src/components/screens/UserProfile'
-import { Login, MainFeed, NewMessage, MyTeachingPage, AddAProgramForm, Camera, Discover, ClassmatesProfile, NewCompanyForm, Company, Settings, Profile, Messages, Classroom, About, Discussion, Activities, AllClassmates, SelectedCamps, Home, AllTeachers, AddClassmates, UserDetailsForm, NewTeacherForm } from './src/components/screens';
+import { Login, MainFeed, NewCourseForm, EditCourseForm, NewMessage, MyTeachingPage, AddAProgramForm, Camera, Discover, ClassmatesProfile, NewCompanyForm, Company, Settings, Profile, Messages, Classroom, About, Discussion, Activities, AllClassmates, SelectedCamps, Home, AllTeachers, AddClassmates, UserDetailsForm, NewTeacherForm } from './src/components/screens';
 
 
 // <Authenticator hideDefault={true}>
@@ -107,6 +107,18 @@ const CameraStack = createMaterialTopTabNavigator({
   },
   MyTeachingPage: {
     screen: MyTeachingPage,
+    navigationOptions: {
+      header: null
+    }
+  },
+  NewCourseForm: {
+    screen: NewCourseForm,
+    navigationOptions: {
+      header: null
+    }
+  },
+  EditCourseForm: {
+    screen: EditCourseForm,
     navigationOptions: {
       header: null
     }

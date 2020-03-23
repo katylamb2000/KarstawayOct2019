@@ -14,7 +14,7 @@ class About extends Component {
            <View style={{flex: 1}}>
 
          <Text style={{fontSize: 34, fontWeight: 800, color: 'black', marginLeft: 15}}> 
-             Comments
+             Comments are here!!!
          </Text>
         </View>
 

@@ -1,17 +1,18 @@
 import React, { Component, useEffect } from 'react'
-import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, ImageBackground} from 'react-native'
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, ImageBackground, ActivityIndicator} from 'react-native'
 import { PostFeed } from '../container'
+import { Post } from '../presentation'
 import { Auth } from 'aws-amplify'
 import { SearchBar, Tile } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import actions from "../../redux/actions";
 import {connect} from 'react-redux'
 import { byOwner } from '../../graphql/queries'
-
 import { API, graphqlOperation } from 'aws-amplify'
 import awsmobile from '../../../aws-exports';
+API.configure(awsmobile)    
+import { listPosts } from "../../graphql/queries"
 
-API.configure(awsmobile)  
 
 
 import { getUser } from "../../graphql/queries"
@@ -29,48 +30,34 @@ class MainFeed extends Component {
             user: ""
     }}
  
-   componentWillReceiveProps(){
-       this.setState({
-           student: this.props.student
-       })
-   }
+
+componentWillMount(){
+    console.log("CPM!!!!!!!!", this.props.student)
+    this.props.student.map(s=> {
+        this.setState({
+            name: s.name,
+            avatar: s.avatar,
+            bio: s.bio,
+            id: s.id
+        })
+    })
+        
+}
    
-       
-    //         Auth.currentSession()
-    //            .then(data => 
-               
-    //         this.setState({
-    //             user: data.accessToken.payload.username
-    //          })
-    //         //  .then(
-    //         //      this.getProfile()
-    //         //  )
+componentDidMount(){
+    this.listQuery()
+}
 
-    //            .catch(err => console.log(err))
-    //            )
-               
-            
-    //         }
+listQuery = async () => {
 
-            // getProfile = async() =>{
-            //     const owner = this.state.user
-            //     console.log("WHAT IS OWNER???", owner)
-                
-            //     student = await API.graphql(graphqlOperation(byOwner, {owner: owner}) )
-        
-            // console.log('student profile returned on mainfeed', student.data.ByOwner.items)
-        
-            // }
-
-    // useEffect(() => {
-    //     Auth.currentSession()
-    //        .then(data => this.setState({
+const allPosts = await API.graphql(graphqlOperation(listPosts))
+console.log("ALL POSTS!!!!!!", allPosts)
+this.setState({
+    allPosts: allPosts.data.listPosts.items
     
-    //        user: data.accessToken.payload.username})
-          
-    //        .catch(err => console.log(err))
-    //        )}, [])
-    
+}
+)}
+ 
     viewSelectedClassmate(classmate){
         this.props.classmateSelected(classmate)
         this.props.navigation.navigate('ClassmatesProfile')
@@ -98,49 +85,30 @@ class MainFeed extends Component {
                 this.props.userReceived(user)
             }
 
-//    componentDidMount(){
-//        console.log(this.props.student)
-//    }
-// componentDidMount(){
-//     console.log("PROPS ON MAIN", this.props.student)
-// }
 
-          //  {/* <PostFeed navigation={this.props.navigation} />  */}
-          
-        
-        // {this.props.student.map(student => {
-        //  <Text> {student.name} </Text>
-        // })} 
-                
-    // </View>
-   
     render(){
-                
-       
-            // console.log("BIO!!!!!!", student.bio)})}
-// console.log("from MMMAAIIINNNFEEEEEEEED!!!!!!!", this.props.student.name, "AND IN STATE", this.state)
-        
-
+         
         return(
         
        
 
       
-      <ScrollView style={{flex: 1}}>
+      <ScrollView style={{flex: 1, paddingTop: 100}}>
 
 
 <View style={{flex: 1}}> 
       
-{this.state.student? this.state.student.map(student => { 
- <Text> Hello {student.bio} </Text>
+ <Text> Hello {this.state.name} </Text>
 
-
-}) : null}
           
                 
            </View>       
-             
-{/* <PostFeed /> */}
+{this.state.allPosts? this.state.allPosts.map(post => {
+    return(
+    <Post key={post.id} post={post} studentProfileID={this.state.id}/>)
+}) :       <ActivityIndicator size="large" color="#0000ff" />
+}        
+
              
 
 </ScrollView>
